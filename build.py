@@ -47,11 +47,10 @@ def page(path,title,desc,body,cur,noindex=False):
 def hero(h1,sub,extra=""): return f'<section class="hero"><div class="tiles">{TILES}</div>{extra}<h1>{h1}</h1><p class="sub">{sub}</p><div>{call()}</div></section>'
 SMS='<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4 3h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H8l-5 4V4a1 1 0 0 1 1-1z"/></svg>'
 PIN='<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7zm0 4.5A2.5 2.5 0 1 0 12 11.5 2.5 2.5 0 0 0 12 6.5z"/></svg>'
-FORM=f'''<h2>Three ways to reach us</h2><p>Tap one. Call or text {PH}, or get directions to {ADDR}.</p>
+FORM=f'''<h2>Two ways to reach us</h2><p>Tap one. Call {PH}, or get directions to {ADDR}.</p>
 <div class="reach"><a class="btn big" href="tel:{TEL}">{PHONE}<span>Call {PH}</span></a>
-<a class="btn big ghost" href="sms:{TEL}">{SMS}<span>Text {PH}</span></a>
 <a class="btn big ghost" href="{DIR}" rel="noopener">{PIN}<span>Get directions</span></a></div>
-<p class="small">Texting: {N("confirm the office line accepts text messages")}</p>'''
+'''
 MAP=f'<div class="map"><iframe title="Map to {NAME}" src="{EMBED}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>'
 TRUST=f'<ul class="trust"><li>Mon–Thu 9–6 · Sat 9–3 {N("confirm hours")}</li><li>Wheelchair accessible {N("confirm, directory-sourced")}</li><li><a href="{MAPS}" rel="noopener">See our reviews on Google</a></li></ul>'
 home=f'''<section class="hero"><div class="tiles">{TILES}</div><span class="eyebrow">Family dentist · Boyle Heights, LA 90033</span>
