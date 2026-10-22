@@ -20,6 +20,7 @@ HOURS=[(1,"Monday","9 AM – 6 PM"),(2,"Tuesday","9 AM – 6 PM"),(3,"Wednesday"
 def hours():
     li="".join(f'<li data-day="{d}"{" class=closed" if v=="Closed" else ""}><span>{n}</span><span>{v}</span></li>' for d,n,v in HOURS)
     return f'<p class="status" aria-live="polite"><i></i><b>Hours from our Google listing</b></p><ul class="hours">{li}</ul><p class="small">Hours from our Google listing (Friday shown closed); please call {PH} to confirm. {N("confirm hours with the office — an older directory lists Mon–Fri 9–5")}</p>'
+PRE=f'<link rel="preload" as="image" type="image/avif" imagesrcset="{BASE}img/hero-1440.avif 1440w, {BASE}img/hero-2880.avif 2880w" imagesizes="100vw" media="(min-width:701px)" fetchpriority="high"><link rel="preload" as="image" type="image/avif" imagesrcset="{BASE}img/hero-m-800.avif 800w, {BASE}img/hero-m-1600.avif 1600w" imagesizes="100vw" media="(max-width:700px)" fetchpriority="high">'
 def page(path,title,desc,body,cur,noindex=False):
     url=ORIGIN+BASE+path
     nav="".join(f'<li><a href="{BASE}{p}"{" aria-current=page" if p==cur else ""}>{l}</a></li>' for p,l in (("","Home"),("services/","Services"),("visit/","Visit")))
@@ -30,18 +31,20 @@ def page(path,title,desc,body,cur,noindex=False):
 <meta property="og:type" content="website"><meta property="og:site_name" content="{NAME}"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{ORIGIN+BASE}img/og.png"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#2F6B4F"><link rel="icon" href="{BASE}img/favicon.svg" type="image/svg+xml"><link rel="icon" href="{BASE}favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="{BASE}img/apple-touch-icon.png">
 <link rel="preload" href="{BASE}fonts/Figtree-400.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{BASE}fonts/YoungSerif-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="{BASE}css/site.css">{ld}</head><body>
+{PRE if path=="" else ""}<link rel="stylesheet" href="{BASE}css/site.css">{ld}</head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="hdr"><a class="mark" href="{BASE}"><img src="{BASE}img/favicon.svg" width="34" height="34" alt=""><span>Boyle Heights<br>Family Dentistry</span></a>
-<nav class="main" aria-label="Main"><ul>{nav}</ul></nav>{call('<span class="l">Call </span>'+PH,"btn")}</div><div class="band" aria-hidden="true"></div></header>
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="mainnav">Menu</button><nav class="main" id="mainnav" aria-label="Main"><ul>{nav}</ul></nav><a class="btn hdr-call" href="tel:{TEL}" aria-label="Call {PH}">{PHONE}<span class="l-full">{PH}</span><span class="l-short">Call</span></a></div><div class="band" aria-hidden="true"></div></header>
 <main id="main">{body}</main>
 <div class="band" aria-hidden="true"></div>
-<footer class="site"><div class="wrap cols">
-<div><h2>{NAME}</h2><p>{ADDR}<br><a href="tel:{TEL}">{PH}</a></p><p><a href="{DIR}" rel="noopener">Get directions</a> · <a href="{MAPS}" rel="noopener">Google listing</a></p></div>
-<div><h2>Hours</h2><p>Mon–Thu 9 AM–6 PM<br>Saturday 9 AM–3 PM<br>Closed Friday &amp; Sunday (per Google)</p><p class="small fn">Our Google listing shows Fridays closed; please call {PH} to confirm hours.</p></div>
+<footer class="site plaque-band"><div class="wrap">
+<div class="plaque"><p class="pl-name">{NAME}</p><p class="pl-call"><a href="tel:{TEL}">Call {PH}.</a></p><p class="pl-addr">{ADDR} {N("confirm address")}</p></div>
+<div class="cols">
+<div><h2>Hours</h2><p>Mon-Thu 9 AM-6 PM<br>Saturday 9 AM-3 PM<br>Closed Friday &amp; Sunday (per Google)</p><p class="small fn">Our Google listing shows Fridays closed; please call {PH} to confirm hours.</p></div>
 <div><h2>Pages</h2><p><a href="{BASE}">Home</a><br><a href="{BASE}services/">Services</a><br><a href="{BASE}visit/">Visit &amp; directions</a></p></div>
-</div><p class="wrap small fn" style="margin-top:2rem">© 2026 {NAME}. Tile artwork is an original illustration, not a photo of the office.</p></footer>
-{call("Call "+PH,"btn big sticky-call")}
+<div><h2>Directions</h2><p><a href="{DIR}" rel="noopener">Get directions</a><br><a href="{MAPS}" rel="noopener">Google listing</a></p></div>
+</div><p class="small fn" style="margin-top:2rem">© 2026 {NAME}. The tile is an original illustration. Hero tile wall is an illustrative scene, not a photo of the office.</p></div></footer>
+<div class="sticky-call"><a class="btn big" href="tel:{TEL}">{PHONE}<span>Call {PH}</span></a></div>
 <script src="{BASE}js/gsap.min.js" defer></script><script src="{BASE}js/ScrollTrigger.min.js" defer></script><script src="{BASE}js/site.js" defer></script>
 </body></html>'''
 def hero(h1,sub,extra=""): return f'<section class="hero"><div class="tiles">{TILES}</div>{extra}<h1>{h1}</h1><p class="sub">{sub}</p><div>{call()}</div></section>'
@@ -53,24 +56,20 @@ FORM=f'''<h2>Two ways to reach us</h2><p>Tap one. Call {PH}, or get directions t
 '''
 MAP=f'<div class="map"><iframe title="Map to {NAME}" src="{EMBED}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>'
 TRUST=f'<ul class="trust"><li>Mon–Thu 9–6 · Sat 9–3 {N("confirm hours")}</li><li>Wheelchair accessible {N("confirm, directory-sourced")}</li><li><a href="{MAPS}" rel="noopener">See our reviews on Google</a></li></ul>'
-home=f'''<section class="hero"><div class="tiles">{TILES}</div><span class="eyebrow">Family dentist · Boyle Heights, LA 90033</span>
-<h1>Your family dentist on St Louis Street.</h1><p class="sub">A small practice for the whole family, near the corner of Cesar Chavez. {N("confirm corner/entrance")}</p><div>{call()}</div>{TRUST}</section>
-<section><div class="wrap split"><div><h2>When we're open</h2>{hours()}<p><strong>Our Google listing shows Fridays closed; please call <a href="tel:{TEL}">{PH}</a> to confirm.</strong></p>{call("Call to book","btn")}</div>
-<div class="arch" role="img" aria-label="Office photo placeholder"><span>Office photo (pending)</span></div></div></section>
-<section class="alt"><div class="wrap"><h2>What we do</h2><div class="prose"><p>General dentistry for the family: the checkups and care that keep teeth healthy, from the kids to the grandparents.</p>
-<p>Toothache? Call and we'll find you a time. {N("confirm same-day/urgent availability")}</p>
-<p>Other treatments will be listed here once the office confirms them. {N("full services list")}</p></div>
-<div class="cta-line">{call("Call "+PH,"btn")}<a class="btn ghost" href="{BASE}services/">About our services</a></div></div></section>
-<section><div class="wrap split"><div><h2>Finding us</h2><p><strong>{ADDR}</strong></p><p>On St Louis St, near Cesar E Chavez Ave. Some directories list 2110 E Cesar E Chavez Ave, likely the same corner building. {N("confirm entrance")}</p>
-<div class="cta-line"><a class="btn" href="{DIR}" rel="noopener">Get directions</a><a class="btn ghost" href="tel:{TEL}">Call {PH}</a></div></div>{MAP}</div></section>
-<section class="alt"><div class="wrap split"><div>{FORM}</div>
-<div><h2>Questions</h2>
-<details><summary>Do you take my insurance?</summary><p>Call <a href="tel:{TEL}">{PH}</a> and ask, and we'll check your plan. {N("accepted plans")}</p></details>
-<details><summary>Are you open on Fridays?</summary><p>Our Google listing shows Fridays closed; please call <a href="tel:{TEL}">{PH}</a> to confirm. {N("confirm hours")}</p></details>
-<details><summary>Where do I park?</summary><p>{N("parking info")}</p></details>
-<details><summary>Is the entrance on St Louis St or Cesar Chavez Ave?</summary><p>{N("confirm entrance")}</p></details>
-</div></div></section>
-<section><div class="wrap" style="text-align:center"><h2>Call {PH}.</h2><p style="margin-inline:auto">We'll find a time that works for your family.</p>{call()}</div></section>'''
+HERO_IMG=f'<picture class="hero-media"><source media="(max-width:700px)" type="image/avif" srcset="{BASE}img/hero-m-800.avif 800w, {BASE}img/hero-m-1600.avif 1600w" sizes="100vw"><source media="(max-width:700px)" type="image/webp" srcset="{BASE}img/hero-m-800.webp 800w, {BASE}img/hero-m-1600.webp 1600w" sizes="100vw"><source type="image/avif" srcset="{BASE}img/hero-1440.avif 1440w, {BASE}img/hero-2880.avif 2880w" sizes="100vw"><source type="image/webp" srcset="{BASE}img/hero-1440.webp 1440w, {BASE}img/hero-2880.webp 2880w" sizes="100vw"><img src="{BASE}img/hero-1440.webp" width="1440" height="810" fetchpriority="high" decoding="async" alt="Illustrative: a wall of hand-glazed tiles in green and rose with an original pattern, set in limewash, in raking afternoon light. Not a photo of the office."></picture><span class="hero-label">Illustrative scene</span>'
+DAYS=[(1,"Mon","9-6"),(2,"Tue","9-6"),(3,"Wed","9-6"),(4,"Thu","9-6"),(5,"Fri","Closed"),(6,"Sat","9-3"),(0,"Sun","Closed")]
+TILEROW='<ul class="hours tilerow" role="list">'+"".join(f'<li data-day="{d}" class="ht{" closed" if v=="Closed" else ""}"><b>{n}</b><span>{v}</span></li>' for d,n,v in DAYS)+'</ul>'
+home=f'''<section class="hero photo-hero">{HERO_IMG}<div class="hero-in"><span class="eyebrow">Family dentist · Boyle Heights, LA 90033</span>
+<h1>Your family dentist on St Louis Street.</h1><p class="sub">A small practice near the corner of Cesar Chavez.</p><div class="cta-line">{call()}<a class="tlink" href="#hours">Hours</a></div></div></section>
+<section class="grout" id="hours" aria-labelledby="hh"><div class="wrap"><h2 id="hh">Hours</h2><p class="status" aria-live="polite"><i></i><b>Hours from our Google listing</b></p>{TILEROW}<p>Google lists Mon-Thu 9-6, Sat 9-3, closed Fri. Call to confirm. {N("confirm hours with the office; an older directory lists Mon-Fri 9-5")}</p></div></section>
+<div class="band" aria-hidden="true"></div>
+<section class="green-wall" aria-labelledby="wd"><div class="wrap wd-grid"><div class="feature-tile"><span>General dentistry</span></div><div><h2 id="wd">What we do</h2><p>General dentistry for the whole family. Call to ask about anything else. {N("services")}</p><div class="cta-line">{call("Call "+PH,"btn light")}<a class="tlink light" href="{BASE}services/">About our services</a></div></div></div></section>
+<div class="band" aria-hidden="true"></div>
+<section class="grout" aria-labelledby="bf"><div class="wrap"><h2 id="bf">Before your first visit</h2>
+<dl class="rows"><div><dt>Insurance</dt><dd>Call and we'll check your plan. {N("accepted plans")}</dd></div><div><dt>Friday</dt><dd>Closed Fridays, per Google. Call <a href="tel:{TEL}">{PH}</a> to confirm.</dd></div><div><dt>Parking</dt><dd>{N("parking info")}</dd></div><div><dt>Accessibility</dt><dd>A directory lists the office as wheelchair accessible. {N("confirm")}</dd></div></dl></div></section>
+<section class="grout limewash" aria-labelledby="vs"><div class="wrap split"><div><h2 id="vs">St Louis St, Boyle Heights</h2><p>482 N St Louis St (some directories list 2110 E Cesar E Chavez Ave, likely the same corner). {N("confirm address and entrance")}</p>
+<div class="cta-line"><a class="btn" href="{DIR}" rel="noopener">{PIN}<span>Get directions</span></a><a class="btn ghost" href="tel:{TEL}">Call {PH}</a></div></div>
+<div class="tile-frame"><div class="map-ph" data-map="{EMBED}"><p><b>482 N St Louis St</b><br>near Cesar E Chavez Ave</p><button class="btn ghost" type="button" data-load-map>Load map</button><p class="small">The map loads from Google when you ask.</p></div></div></div></section>'''
 services=hero("Services","Everyday dental care for every age.")+f'''
 <section><div class="wrap prose"><h2>General dentistry</h2><p>Checkups and family dental care for kids, parents and grandparents. Call to ask about the care you need.</p>
 <h3>More services</h3><p>We only list services the office has confirmed. {N("confirm services, e.g. cleanings, fillings, extractions, crowns")}</p>

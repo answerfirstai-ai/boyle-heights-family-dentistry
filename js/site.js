@@ -1,4 +1,6 @@
 (function(){
+  var mb=document.querySelector('.menu-btn'),nv=document.getElementById('mainnav');if(mb)mb.addEventListener('click',function(){mb.setAttribute('aria-expanded',nv.classList.toggle('open'))});
+  document.querySelectorAll('[data-load-map]').forEach(function(b){b.addEventListener('click',function(){var w=b.closest('[data-map]'),f=document.createElement('iframe');f.src=w.dataset.map;f.title='Map to Boyle Heights Family Dentistry';f.loading='lazy';w.innerHTML='';w.appendChild(f)})});
   // Hours [NEED: confirm] — Google listing: Mon–Thu 9–18, Sat 9–15, Fri/Sun closed
   var H={0:null,1:[9,18],2:[9,18],3:[9,18],4:[9,18],5:null,6:[9,15]};
   var la=new Date(new Date().toLocaleString("en-US",{timeZone:"America/Los_Angeles"}));
@@ -13,9 +15,6 @@
   
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduce||!window.gsap)return;
-  var tiles=gsap.utils.toArray('.tiles .t');
-  if(tiles.length){tiles.sort(function(a,b){return a.dataset.d-b.dataset.d});
-    gsap.from(tiles,{scale:0,opacity:0,duration:.35,ease:'back.out(1.6)',stagger:{amount:1.2}});}
   if(window.ScrollTrigger){gsap.registerPlugin(ScrollTrigger);
     gsap.utils.toArray('.band').forEach(function(b){gsap.fromTo(b,{backgroundPositionX:'0px'},{backgroundPositionX:'144px',ease:'none',scrollTrigger:{trigger:b,start:'top bottom',end:'bottom top',scrub:true}})});
     gsap.utils.toArray('.arch').forEach(function(a){gsap.from(a,{clipPath:'inset(100% 0 0 0)',duration:.9,ease:'power3.out',scrollTrigger:{trigger:a,start:'top 85%'}})});}
