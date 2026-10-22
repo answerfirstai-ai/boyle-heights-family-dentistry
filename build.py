@@ -1,0 +1,94 @@
+import json,os
+BASE="/boyle-heights-family-dentistry/"
+ORIGIN="https://answerfirstai-ai.github.io"
+NAME="Boyle Heights Family Dentistry"
+TEL="+13232688308"; PH="(323) 268-8308"
+ADDR="482 N St Louis St, Los Angeles, CA 90033"
+MAPS="https://www.google.com/maps?ftid=0x80c2c60928d2bdad:0x53dfda274f12f146"
+DIR="https://www.google.com/maps/dir/?api=1&amp;destination=482+N+St+Louis+St%2C+Los+Angeles%2C+CA+90033"
+EMBED="https://www.google.com/maps?q=482+N+St+Louis+St,+Los+Angeles,+CA+90033&amp;output=embed"
+TILES=open('hero_tiles.svgfrag').read()
+N=lambda s:f'<span class="need">[NEED: {s}]</span>'
+PHONE='<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>'
+def call(label=None,cls="btn big"): return f'<a class="{cls}" href="tel:{TEL}">{PHONE}<span>{label or "Call "+PH}</span></a>'
+schema={"@context":"https://schema.org","@type":"Dentist","@id":ORIGIN+BASE+"#practice","name":NAME,"url":ORIGIN+BASE,"telephone":"+1-323-268-8308",
+ "image":ORIGIN+BASE+"img/og.png","logo":ORIGIN+BASE+"img/apple-touch-icon.png",
+ "address":{"@type":"PostalAddress","streetAddress":"482 N St Louis St","addressLocality":"Los Angeles","addressRegion":"CA","postalCode":"90033","addressCountry":"US"},
+ "areaServed":["Boyle Heights","East Los Angeles","Lincoln Heights"],"hasMap":MAPS,
+ "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday"],"opens":"09:00","closes":"18:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:00","closes":"15:00"}]}
+HOURS=[(1,"Monday","9 AM – 6 PM"),(2,"Tuesday","9 AM – 6 PM"),(3,"Wednesday","9 AM – 6 PM"),(4,"Thursday","9 AM – 6 PM"),(5,"Friday","Closed"),(6,"Saturday","9 AM – 3 PM"),(0,"Sunday","Closed")]
+def hours():
+    li="".join(f'<li data-day="{d}"{" class=closed" if v=="Closed" else ""}><span>{n}</span><span>{v}</span></li>' for d,n,v in HOURS)
+    return f'<p class="status" aria-live="polite"><i></i><b>Hours from our Google listing</b></p><ul class="hours">{li}</ul><p class="small">Hours from the practice\'s Google listing. {N("confirm hours with the office — an older directory lists Mon–Fri 9–5")}</p>'
+def page(path,title,desc,body,cur,noindex=False):
+    url=ORIGIN+BASE+path
+    nav="".join(f'<li><a href="{BASE}{p}"{" aria-current=page" if p==cur else ""}>{l}</a></li>' for p,l in (("","Home"),("services/","Services"),("visit/","Visit")))
+    ld='' if noindex else f'<script type="application/ld+json">{json.dumps(schema)}</script>'
+    head_seo='<meta name="robots" content="noindex">' if noindex else f'<link rel="canonical" href="{url}">'
+    return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{title}</title><meta name="description" content="{desc}">{head_seo}
+<meta property="og:type" content="website"><meta property="og:site_name" content="{NAME}"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{ORIGIN+BASE}img/og.png"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2F6B4F"><link rel="icon" href="{BASE}img/favicon.svg" type="image/svg+xml"><link rel="icon" href="{BASE}favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="{BASE}img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&amp;family=Young+Serif&amp;display=swap">
+<link rel="stylesheet" href="{BASE}css/site.css">{ld}</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="hdr"><a class="mark" href="{BASE}"><img src="{BASE}img/favicon.svg" width="34" height="34" alt=""><span>Boyle Heights<br>Family Dentistry</span></a>
+<nav class="main" aria-label="Main"><ul>{nav}</ul></nav>{call('<span class="l">Call </span>'+PH,"btn")}</div><div class="band" aria-hidden="true"></div></header>
+<main id="main">{body}</main>
+<div class="band" aria-hidden="true"></div>
+<footer class="site"><div class="wrap cols">
+<div><h2>{NAME}</h2><p>{ADDR}<br><a href="tel:{TEL}">{PH}</a></p><p><a href="{DIR}" rel="noopener">Get directions</a> · <a href="{MAPS}" rel="noopener">Google listing</a></p></div>
+<div><h2>Hours</h2><p>Mon–Thu 9 AM–6 PM<br>Saturday 9 AM–3 PM<br>Closed Friday &amp; Sunday</p><p class="small fn">Hours pending confirmation with the office.</p></div>
+<div><h2>Pages</h2><p><a href="{BASE}">Home</a><br><a href="{BASE}services/">Services</a><br><a href="{BASE}visit/">Visit &amp; directions</a></p></div>
+</div><p class="wrap small fn" style="margin-top:2rem">© 2026 {NAME}. Tile artwork is an original illustration, not a photo of the office.</p></footer>
+{call("Call "+PH,"btn big sticky-call")}
+<script src="{BASE}js/gsap.min.js" defer></script><script src="{BASE}js/ScrollTrigger.min.js" defer></script><script src="{BASE}js/site.js" defer></script>
+</body></html>'''
+def hero(h1,sub,extra=""): return f'<section class="hero"><div class="tiles">{TILES}</div>{extra}<h1>{h1}</h1><p class="sub">{sub}</p><div>{call()}</div></section>'
+FORM=f'''<h2>Rather we call you?</h2><p>Leave your name and number. On a phone, this opens a text message to the office, ready to send.</p>
+<form class="cb"><label>Your name<input name="name" autocomplete="name" required></label>
+<label>Phone number<input name="phone" type="tel" autocomplete="tel" inputmode="tel" required></label>
+<label>Message (optional)<textarea name="message" rows="3"></textarea></label>
+<button class="btn" type="submit">Send callback request</button><p class="small">{N("office email or form service so requests arrive without SMS")}</p></form>'''
+MAP=f'<div class="map"><iframe title="Map to {NAME}" src="{EMBED}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>'
+TRUST=f'<ul class="trust"><li>Mon–Thu 9–6 · Sat 9–3 {N("confirm hours")}</li><li>Wheelchair accessible {N("confirm, directory-sourced")}</li><li><a href="{MAPS}" rel="noopener">See our reviews on Google</a></li></ul>'
+home=f'''<section class="hero"><div class="tiles">{TILES}</div><span class="eyebrow">Family dentist · Boyle Heights, LA 90033</span>
+<h1>Your family dentist on St Louis Street.</h1><p class="sub">A small practice for the whole family, near the corner of Cesar Chavez. {N("confirm corner/entrance")}</p><div>{call()}</div>{TRUST}</section>
+<section><div class="wrap split"><div><h2>When we're open</h2>{hours()}<p><strong>We're closed on Fridays.</strong> Please call before you make the trip.</p>{call("Call to book","btn")}</div>
+<div class="arch" role="img" aria-label="Office photo placeholder"><span>Office photo (pending)</span></div></div></section>
+<section class="alt"><div class="wrap"><h2>What we do</h2><div class="prose"><p>General dentistry for the family: the checkups and care that keep teeth healthy, from the kids to the grandparents.</p>
+<p>Toothache? Call and we'll find you a time. {N("confirm same-day/urgent availability")}</p>
+<p>Other treatments will be listed here once the office confirms them. {N("full services list")}</p></div>
+<div class="cta-line">{call("Call "+PH,"btn")}<a class="btn ghost" href="{BASE}services/">About our services</a></div></div></section>
+<section><div class="wrap split"><div><h2>Finding us</h2><p><strong>{ADDR}</strong></p><p>On St Louis St, near Cesar E Chavez Ave. Some directories list 2110 E Cesar E Chavez Ave, likely the same corner building. {N("confirm entrance")}</p>
+<div class="cta-line"><a class="btn" href="{DIR}" rel="noopener">Get directions</a><a class="btn ghost" href="tel:{TEL}">Call {PH}</a></div></div>{MAP}</div></section>
+<section class="alt"><div class="wrap split"><div>{FORM}</div>
+<div><h2>Questions</h2>
+<details><summary>Do you take my insurance?</summary><p>Call <a href="tel:{TEL}">{PH}</a> and ask, and we'll check your plan. {N("accepted plans")}</p></details>
+<details><summary>Are you open on Fridays?</summary><p>No. We're closed Friday and Sunday. {N("confirm hours")}</p></details>
+<details><summary>Where do I park?</summary><p>{N("parking info")}</p></details>
+<details><summary>Is the entrance on St Louis St or Cesar Chavez Ave?</summary><p>{N("confirm entrance")}</p></details>
+</div></div></section>
+<section><div class="wrap" style="text-align:center"><h2>Call {PH}.</h2><p style="margin-inline:auto">We'll find a time that works for your family.</p>{call()}</div></section>'''
+services=hero("Services","Everyday dental care for every age.")+f'''
+<section><div class="wrap prose"><h2>General dentistry</h2><p>Checkups and family dental care for kids, parents and grandparents. Call to ask about the care you need.</p>
+<h3>More services</h3><p>We only list services the office has confirmed. {N("confirm services, e.g. cleanings, fillings, extractions, crowns")}</p>
+<h3>Tooth pain</h3><p>Call and we'll find you a time. {N("confirm same-day/urgent availability")}</p>
+<h3>Insurance</h3><p>Ask about your insurance when you call. {N("accepted plans")}</p>
+<div class="cta-line">{call("Call "+PH,"btn")}<a class="btn ghost" href="{BASE}visit/">Hours &amp; directions</a></div></div></section>'''
+visit=hero("Visit us",ADDR)+f'''
+<section><div class="wrap split"><div><h2>Hours</h2>{hours()}</div>{MAP}</div></section>
+<section class="alt"><div class="wrap split"><div class="prose"><h2>Getting here</h2><p>On St Louis St near Cesar E Chavez Ave, Boyle Heights. {N("confirm entrance")}</p>
+<h3>Parking</h3><p>{N("parking info")}</p><h3>Accessibility</h3><p>A directory lists the office as wheelchair accessible. {N("confirm")}</p>
+<div class="cta-line"><a class="btn" href="{DIR}" rel="noopener">Get directions</a></div></div><div>{FORM}</div></div></section>'''
+nf=f'<section class="hero"><div class="tiles">{TILES}</div><h1>This page isn\'t here.</h1><p class="sub">Let\'s get you back.</p><div class="cta-line" style="justify-content:center"><a class="btn ghost" href="{BASE}">Home</a>{call("Call "+PH,"btn")}</div></section>'
+os.makedirs('services',exist_ok=True);os.makedirs('visit',exist_ok=True)
+open('index.html','w').write(page("","Boyle Heights Family Dentistry | Family Dentist in Boyle Heights, LA","Neighborhood family dentist on St Louis St in Boyle Heights, LA 90033. Call (323) 268-8308 to book.",home,""))
+open('services/index.html','w').write(page("services/","Dental Services | Boyle Heights Family Dentistry, LA 90033","General and family dentistry in Boyle Heights, Los Angeles. Ask about your insurance: call (323) 268-8308.",services,"services/"))
+open('visit/index.html','w').write(page("visit/","Hours & Directions | Boyle Heights Family Dentistry","Find Boyle Heights Family Dentistry at 482 N St Louis St, Los Angeles 90033. Hours, map and directions.",visit,"visit/"))
+open('404.html','w').write(page("404.html","Page not found | Boyle Heights Family Dentistry","Page not found.",nf,"",noindex=True))
+sm="".join(f"<url><loc>{ORIGIN+BASE+p}</loc><lastmod>2026-10-22</lastmod></url>" for p in ("","services/","visit/"))
+open('sitemap.xml','w').write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sm}</urlset>\n')
+open('robots.txt','w').write(f"User-agent: *\nAllow: /\nSitemap: {ORIGIN+BASE}sitemap.xml\n")
+open('.nojekyll','w').write('')
