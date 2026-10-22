@@ -1,7 +1,7 @@
 (function(){
   var mb=document.querySelector('.menu-btn'),nv=document.getElementById('mainnav');if(mb)mb.addEventListener('click',function(){mb.setAttribute('aria-expanded',nv.classList.toggle('open'))});
   document.querySelectorAll('[data-load-map]').forEach(function(b){b.addEventListener('click',function(){var w=b.closest('[data-map]'),f=document.createElement('iframe');f.src=w.dataset.map;f.title='Map to Boyle Heights Family Dentistry';f.loading='lazy';w.innerHTML='';w.appendChild(f)})});
-  // Hours [NEED: confirm] — Google listing: Mon–Thu 9–18, Sat 9–15, Fri/Sun closed
+  // Hours (unconfirmed) — Google listing: Mon–Thu 9–18, Sat 9–15, Fri/Sun closed
   var H={0:null,1:[9,18],2:[9,18],3:[9,18],4:[9,18],5:null,6:[9,15]};
   var la=new Date(new Date().toLocaleString("en-US",{timeZone:"America/Los_Angeles"}));
   var d=la.getDay(),h=la.getHours()+la.getMinutes()/60,t=H[d];
