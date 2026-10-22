@@ -29,8 +29,7 @@ def page(path,title,desc,body,cur,noindex=False):
 <title>{title}</title><meta name="description" content="{desc}">{head_seo}
 <meta property="og:type" content="website"><meta property="og:site_name" content="{NAME}"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{ORIGIN+BASE}img/og.png"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#2F6B4F"><link rel="icon" href="{BASE}img/favicon.svg" type="image/svg+xml"><link rel="icon" href="{BASE}favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="{BASE}img/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&amp;family=Young+Serif&amp;display=swap"><link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&amp;family=Young+Serif&amp;display=swap">
+<link rel="preload" href="{BASE}fonts/Figtree-400.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{BASE}fonts/YoungSerif-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{BASE}css/site.css">{ld}</head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="hdr"><a class="mark" href="{BASE}"><img src="{BASE}img/favicon.svg" width="34" height="34" alt=""><span>Boyle Heights<br>Family Dentistry</span></a>
