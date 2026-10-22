@@ -47,7 +47,7 @@ def page(path,title,desc,body,cur,noindex=False):
 <div class="sticky-call"><a class="btn big" href="tel:{TEL}">{PHONE}<span>Call {PH}</span></a></div>
 <script src="{BASE}js/gsap.min.js" defer></script><script src="{BASE}js/ScrollTrigger.min.js" defer></script><script src="{BASE}js/site.js" defer></script>
 </body></html>'''
-def hero(h1,sub,extra=""): return f'<section class="hero"><div class="tiles">{TILES}</div>{extra}<h1>{h1}</h1><p class="sub">{sub}</p><div>{call()}</div></section>'
+def hero(h1,sub,extra=""): return f'<section class="hero page-hero">{extra}<h1>{h1}</h1><p class="sub">{sub}</p><div>{call()}</div></section>'
 SMS='<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4 3h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H8l-5 4V4a1 1 0 0 1 1-1z"/></svg>'
 PIN='<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7zm0 4.5A2.5 2.5 0 1 0 12 11.5 2.5 2.5 0 0 0 12 6.5z"/></svg>'
 FORM=f'''<h2>Two ways to reach us</h2><p>Tap one. Call {PH}, or get directions to {ADDR}.</p>
@@ -81,7 +81,7 @@ visit=hero("Visit us",ADDR)+f'''
 <section class="alt"><div class="wrap split"><div class="prose"><h2>Getting here</h2><p>On St Louis St near Cesar E Chavez Ave, Boyle Heights. {N("confirm entrance")}</p>
 <h3>Parking</h3><p>{N("parking info")}</p><h3>Accessibility</h3><p>A directory lists the office as wheelchair accessible. {N("confirm")}</p>
 <div class="cta-line"><a class="btn" href="{DIR}" rel="noopener">Get directions</a></div></div><div>{FORM}</div></div></section>'''
-nf=f'<section class="hero"><div class="tiles">{TILES}</div><h1>This page isn\'t here.</h1><p class="sub">Let\'s get you back.</p><div class="cta-line" style="justify-content:center"><a class="btn ghost" href="{BASE}">Home</a>{call("Call "+PH,"btn")}</div></section>'
+nf=f'<section class="hero page-hero"><h1>This page isn\'t here.</h1><p class="sub">Let\'s get you back.</p><div class="cta-line" style="justify-content:center"><a class="btn ghost" href="{BASE}">Home</a>{call("Call "+PH,"btn")}</div></section>'
 os.makedirs('services',exist_ok=True);os.makedirs('visit',exist_ok=True)
 open('index.html','w').write(page("","Boyle Heights Family Dentistry | Family Dentist in Boyle Heights, LA","Neighborhood family dentist on St Louis St in Boyle Heights, LA 90033. Call (323) 268-8308 to book.",home,""))
 open('services/index.html','w').write(page("services/","Dental Services | Boyle Heights Family Dentistry, LA 90033","General and family dentistry in Boyle Heights, Los Angeles. Ask about your insurance: call (323) 268-8308.",services,"services/"))

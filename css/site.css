@@ -115,3 +115,5 @@ html,body{overflow-x:clip}
 footer.site.plaque-band{background:var(--color-accent)}
 footer.site .plaque a{color:var(--color-accent)}
 @media (max-width:700px){.photo-hero{flex-direction:column;align-items:stretch;padding:1.6rem 0 0}.photo-hero:after{display:none}.hero-media{position:relative;order:2;height:78vw;max-height:none;margin-top:1.6rem}.hero-media img{object-position:center 85%}.photo-hero .hero-in{padding-top:0}.hero-label{top:auto;bottom:16px}.photo-hero h1{font-size:9vw}}
+.page-hero{text-align:left;padding:clamp(2.4rem,6vw,4.5rem) 0 clamp(2rem,4vw,3rem);background:#f3efe8;border-bottom:1px solid #7a4a3233}
+.page-hero>*{width:min(var(--w),100%);margin-left:auto!important;margin-right:auto!important;padding:0 1.25rem}.page-hero h1{max-width:none}
