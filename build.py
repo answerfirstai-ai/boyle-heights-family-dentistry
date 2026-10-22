@@ -30,7 +30,7 @@ def page(path,title,desc,body,cur,noindex=False):
 <meta property="og:type" content="website"><meta property="og:site_name" content="{NAME}"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{ORIGIN+BASE}img/og.png"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#2F6B4F"><link rel="icon" href="{BASE}img/favicon.svg" type="image/svg+xml"><link rel="icon" href="{BASE}favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="{BASE}img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&amp;family=Young+Serif&amp;display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&amp;family=Young+Serif&amp;display=swap"><link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&amp;family=Young+Serif&amp;display=swap">
 <link rel="stylesheet" href="{BASE}css/site.css">{ld}</head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="hdr"><a class="mark" href="{BASE}"><img src="{BASE}img/favicon.svg" width="34" height="34" alt=""><span>Boyle Heights<br>Family Dentistry</span></a>
@@ -46,11 +46,13 @@ def page(path,title,desc,body,cur,noindex=False):
 <script src="{BASE}js/gsap.min.js" defer></script><script src="{BASE}js/ScrollTrigger.min.js" defer></script><script src="{BASE}js/site.js" defer></script>
 </body></html>'''
 def hero(h1,sub,extra=""): return f'<section class="hero"><div class="tiles">{TILES}</div>{extra}<h1>{h1}</h1><p class="sub">{sub}</p><div>{call()}</div></section>'
-FORM=f'''<h2>Rather we call you?</h2><p>Leave your name and number. On a phone, this opens a text message to the office, ready to send.</p>
-<form class="cb"><label>Your name<input name="name" autocomplete="name" required></label>
-<label>Phone number<input name="phone" type="tel" autocomplete="tel" inputmode="tel" required></label>
-<label>Message (optional)<textarea name="message" rows="3"></textarea></label>
-<button class="btn" type="submit">Send callback request</button><p class="small">{N("office email or form service so requests arrive without SMS")}</p></form>'''
+SMS='<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4 3h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H8l-5 4V4a1 1 0 0 1 1-1z"/></svg>'
+PIN='<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7zm0 4.5A2.5 2.5 0 1 0 12 11.5 2.5 2.5 0 0 0 12 6.5z"/></svg>'
+FORM=f'''<h2>Three ways to reach us</h2><p>Tap one. Call or text {PH}, or get directions to {ADDR}.</p>
+<div class="reach"><a class="btn big" href="tel:{TEL}">{PHONE}<span>Call {PH}</span></a>
+<a class="btn big ghost" href="sms:{TEL}">{SMS}<span>Text {PH}</span></a>
+<a class="btn big ghost" href="{DIR}" rel="noopener">{PIN}<span>Get directions</span></a></div>
+<p class="small">Texting: {N("confirm the office line accepts text messages")}</p>'''
 MAP=f'<div class="map"><iframe title="Map to {NAME}" src="{EMBED}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>'
 TRUST=f'<ul class="trust"><li>Mon–Thu 9–6 · Sat 9–3 {N("confirm hours")}</li><li>Wheelchair accessible {N("confirm, directory-sourced")}</li><li><a href="{MAPS}" rel="noopener">See our reviews on Google</a></li></ul>'
 home=f'''<section class="hero"><div class="tiles">{TILES}</div><span class="eyebrow">Family dentist · Boyle Heights, LA 90033</span>

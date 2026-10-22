@@ -10,10 +10,7 @@
   if(open){msg='Open now · until '+fmt(t[1])}
   else{for(var k=0;k<8;k++){var dd=(d+k)%7,tt=H[dd];if(tt&&(k>0||h<tt[0])){msg='Closed now · opens '+(k===0?'today':k===1?'tomorrow':['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dd])+' at '+fmt(tt[0]);break}}}
   document.querySelectorAll('.status').forEach(function(s){s.classList.toggle('open',!!open);s.querySelector('b').textContent=msg});
-  // Callback form: no backend yet [NEED: form endpoint] — composes a text message to the office
-  document.querySelectorAll('form.cb').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();
-    if(!f.reportValidity())return;var n=f.elements.name.value.trim(),p=f.elements.phone.value.trim(),m=f.elements.message.value.trim();
-    location.href='sms:+13232688308?&body='+encodeURIComponent('Callback request from '+n+' ('+p+')'+(m?': '+m:''));});});
+  
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduce||!window.gsap)return;
   var tiles=gsap.utils.toArray('.tiles .t');

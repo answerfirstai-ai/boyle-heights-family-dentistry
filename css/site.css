@@ -58,3 +58,5 @@ footer h2{font-size:1.3rem;color:#fff}
 .arch{max-width:360px;width:100%;justify-self:center;background:var(--color-secondary) url("../img/tile.svg") center/90px;}
 .arch::before{content:"";position:absolute;inset:14px;border-radius:999px 999px 2px 2px;background:#e7b7a3e6;border:1.5px solid var(--color-line)}
 .arch span{position:relative}
+.reach{display:grid;gap:.8rem;max-width:26rem}.reach .btn{justify-content:flex-start}
+.status{min-height:1.7em}.status b{min-width:16ch}
