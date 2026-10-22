@@ -19,7 +19,7 @@ schema={"@context":"https://schema.org","@type":"Dentist","@id":ORIGIN+BASE+"#pr
 HOURS=[(1,"Monday","9 AM – 6 PM"),(2,"Tuesday","9 AM – 6 PM"),(3,"Wednesday","9 AM – 6 PM"),(4,"Thursday","9 AM – 6 PM"),(5,"Friday","Closed"),(6,"Saturday","9 AM – 3 PM"),(0,"Sunday","Closed")]
 def hours():
     li="".join(f'<li data-day="{d}"{" class=closed" if v=="Closed" else ""}><span>{n}</span><span>{v}</span></li>' for d,n,v in HOURS)
-    return f'<p class="status" aria-live="polite"><i></i><b>Hours from our Google listing</b></p><ul class="hours">{li}</ul><p class="small">Hours from the practice\'s Google listing. {N("confirm hours with the office — an older directory lists Mon–Fri 9–5")}</p>'
+    return f'<p class="status" aria-live="polite"><i></i><b>Hours from our Google listing</b></p><ul class="hours">{li}</ul><p class="small">Hours from our Google listing (Friday shown closed); please call {PH} to confirm. {N("confirm hours with the office — an older directory lists Mon–Fri 9–5")}</p>'
 def page(path,title,desc,body,cur,noindex=False):
     url=ORIGIN+BASE+path
     nav="".join(f'<li><a href="{BASE}{p}"{" aria-current=page" if p==cur else ""}>{l}</a></li>' for p,l in (("","Home"),("services/","Services"),("visit/","Visit")))
@@ -38,7 +38,7 @@ def page(path,title,desc,body,cur,noindex=False):
 <div class="band" aria-hidden="true"></div>
 <footer class="site"><div class="wrap cols">
 <div><h2>{NAME}</h2><p>{ADDR}<br><a href="tel:{TEL}">{PH}</a></p><p><a href="{DIR}" rel="noopener">Get directions</a> · <a href="{MAPS}" rel="noopener">Google listing</a></p></div>
-<div><h2>Hours</h2><p>Mon–Thu 9 AM–6 PM<br>Saturday 9 AM–3 PM<br>Closed Friday &amp; Sunday</p><p class="small fn">Hours pending confirmation with the office.</p></div>
+<div><h2>Hours</h2><p>Mon–Thu 9 AM–6 PM<br>Saturday 9 AM–3 PM<br>Closed Friday &amp; Sunday (per Google)</p><p class="small fn">Our Google listing shows Fridays closed; please call {PH} to confirm hours.</p></div>
 <div><h2>Pages</h2><p><a href="{BASE}">Home</a><br><a href="{BASE}services/">Services</a><br><a href="{BASE}visit/">Visit &amp; directions</a></p></div>
 </div><p class="wrap small fn" style="margin-top:2rem">© 2026 {NAME}. Tile artwork is an original illustration, not a photo of the office.</p></footer>
 {call("Call "+PH,"btn big sticky-call")}
@@ -55,7 +55,7 @@ MAP=f'<div class="map"><iframe title="Map to {NAME}" src="{EMBED}" loading="lazy
 TRUST=f'<ul class="trust"><li>Mon–Thu 9–6 · Sat 9–3 {N("confirm hours")}</li><li>Wheelchair accessible {N("confirm, directory-sourced")}</li><li><a href="{MAPS}" rel="noopener">See our reviews on Google</a></li></ul>'
 home=f'''<section class="hero"><div class="tiles">{TILES}</div><span class="eyebrow">Family dentist · Boyle Heights, LA 90033</span>
 <h1>Your family dentist on St Louis Street.</h1><p class="sub">A small practice for the whole family, near the corner of Cesar Chavez. {N("confirm corner/entrance")}</p><div>{call()}</div>{TRUST}</section>
-<section><div class="wrap split"><div><h2>When we're open</h2>{hours()}<p><strong>We're closed on Fridays.</strong> Please call before you make the trip.</p>{call("Call to book","btn")}</div>
+<section><div class="wrap split"><div><h2>When we're open</h2>{hours()}<p><strong>Our Google listing shows Fridays closed; please call <a href="tel:{TEL}">{PH}</a> to confirm.</strong></p>{call("Call to book","btn")}</div>
 <div class="arch" role="img" aria-label="Office photo placeholder"><span>Office photo (pending)</span></div></div></section>
 <section class="alt"><div class="wrap"><h2>What we do</h2><div class="prose"><p>General dentistry for the family: the checkups and care that keep teeth healthy, from the kids to the grandparents.</p>
 <p>Toothache? Call and we'll find you a time. {N("confirm same-day/urgent availability")}</p>
@@ -66,7 +66,7 @@ home=f'''<section class="hero"><div class="tiles">{TILES}</div><span class="eyeb
 <section class="alt"><div class="wrap split"><div>{FORM}</div>
 <div><h2>Questions</h2>
 <details><summary>Do you take my insurance?</summary><p>Call <a href="tel:{TEL}">{PH}</a> and ask, and we'll check your plan. {N("accepted plans")}</p></details>
-<details><summary>Are you open on Fridays?</summary><p>No. We're closed Friday and Sunday. {N("confirm hours")}</p></details>
+<details><summary>Are you open on Fridays?</summary><p>Our Google listing shows Fridays closed; please call <a href="tel:{TEL}">{PH}</a> to confirm. {N("confirm hours")}</p></details>
 <details><summary>Where do I park?</summary><p>{N("parking info")}</p></details>
 <details><summary>Is the entrance on St Louis St or Cesar Chavez Ave?</summary><p>{N("confirm entrance")}</p></details>
 </div></div></section>
